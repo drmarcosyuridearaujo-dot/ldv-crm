@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
-import { MOCK_WEDDINGS, MOCK_CATERING_TIMELINE } from '../../data/mockData';
+import { MOCK_WEDDINGS, MOCK_TIMELINE_PLANNING } from '../../data/mockData';
 
 export default function PrintTimeline() {
   const { id } = useParams();
@@ -18,7 +18,7 @@ export default function PrintTimeline() {
       
       <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '2px solid #000', paddingBottom: 20, marginBottom: 40 }}>
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 700, margin: 0 }}>Timeline do Evento</h1>
+          <h1 style={{ fontSize: 24, fontWeight: 700, margin: 0 }}>Timeline Planning</h1>
           <div style={{ fontSize: 14, color: '#666', marginTop: 4 }}>
             {wedding.bride} & {wedding.groom} — {new Date(wedding.date).toLocaleDateString('pt-PT')}
           </div>
@@ -30,26 +30,28 @@ export default function PrintTimeline() {
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        {MOCK_CATERING_TIMELINE.map((item, idx) => (
-          <div key={item.id} style={{ 
-            display: 'flex', 
-            padding: '12px 0', 
-            borderBottom: idx < MOCK_CATERING_TIMELINE.length - 1 ? '1px solid #eee' : 'none',
+        {MOCK_TIMELINE_PLANNING.map((item, idx) => (
+          <div key={item.id} style={{
+            display: 'flex',
+            padding: '12px 0',
+            borderBottom: idx < MOCK_TIMELINE_PLANNING.length - 1 ? '1px solid #eee' : 'none',
             pageBreakInside: 'avoid'
           }}>
             <div style={{ width: '80px', fontWeight: 600, fontSize: 14, flexShrink: 0 }}>
               {item.time}
             </div>
-            
+
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 14, fontWeight: item._isCourse ? 400 : 600, display: 'flex', alignItems: 'center', gap: 8 }}>
-                {item._isCourse ? '🍽 ' : ''}{item.label}
+              <div style={{ fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 8 }}>
+                {item.label}
+                {item.visible_to_vendors === false && (
+                  <span style={{ fontSize: 10, fontWeight: 400, color: '#999' }}>(interno)</span>
+                )}
               </div>
-              
-              {(item.local || item.equipa || item.notes) && (
+
+              {(item.local || item.notes) && (
                 <div style={{ marginTop: 6, fontSize: 12, color: '#555', display: 'flex', flexDirection: 'column', gap: 2 }}>
                   {item.local && <div>📍 Local: {item.local}</div>}
-                  {item.equipa && <div>👤 Equipa: {item.equipa}</div>}
                   {item.notes && <div style={{ color: '#d97706', fontWeight: 500 }}>⚠ Nota: {item.notes}</div>}
                 </div>
               )}

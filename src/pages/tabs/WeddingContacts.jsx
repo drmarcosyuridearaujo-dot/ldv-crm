@@ -51,7 +51,8 @@ export default function WeddingContacts() {
   const tipoIcon = (tipo) => {
     const map = {
       'Música': '🎵', 'Fotografia': '📷', 'Vídeo': '🎬',
-      'Florista': '🌸', 'Bolo': '🎂', 'Transporte': '🚌', 'Animação': '🎩'
+      'Florista': '🌸', 'Bolo': '🎂', 'Transporte': '🚌', 'Animação': '🎩',
+      'Beleza': '💄', 'Celebrante': '🕊️',
     };
     return map[tipo] || '📋';
   };
@@ -139,9 +140,15 @@ export default function WeddingContacts() {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {items.map(f => (
-                    <div key={f.id} className="card" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 16 }}>
-                      <div style={{ flex: 1, minWidth: 0 }}>
+                    <div key={f.id} className="card" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
+                      <div style={{ flex: 1, minWidth: 160 }}>
                         <div style={{ fontWeight: 600, fontSize: 14 }}>{f.nome}</div>
+                        {f.email && (
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 2 }}>
+                            <a href={`mailto:${f.email}`} style={{ fontSize: 12, color: 'var(--text3)' }}>{f.email}</a>
+                            <CopyBtn text={f.email} />
+                          </div>
+                        )}
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                         <a

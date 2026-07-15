@@ -10,11 +10,11 @@ const PROFILES = [
 
 // Which tabs each profile can see
 export const ROLE_PERMISSIONS = {
-  coordenadora: ['overview', 'timeline', 'financial', 'seating', 'decor', 'contacts', 'journey'],
+  coordenadora: ['overview', 'timeline', 'financial', 'seating', 'decor', 'contacts', 'journey', 'intake', 'actions'],
   chefe_sala:   ['overview', 'timeline', 'seating'],
   catering:     ['overview', 'timeline'],
   decoracao:    ['overview', 'decor'],
-  admin:        ['overview', 'timeline', 'financial', 'seating', 'decor', 'contacts', 'journey'],
+  admin:        ['overview', 'timeline', 'financial', 'seating', 'decor', 'contacts', 'journey', 'intake', 'actions'],
 };
 
 export default function LoginPage({ onLogin }) {

@@ -53,6 +53,17 @@ export const TABLE_PRESETS = {
 
 export const CANVAS_SCALE = 30; // Scale up for better visibility, 1 metro = 30 px
 
+// Mesas com nº de lugares fixo (não editável) — mesa dos noivos retangular/redonda.
+// A Mesa Noivos S fica de fora propositadamente: aceita nº de lugares variável.
+export const FIXED_SEAT_PRESETS = new Set(['rect_bride', 'round_bride']);
+
+// Ângulos de rotação disponíveis dependem da forma da mesa.
+export function rotationOptions(shape) {
+  return shape === 'rect' || shape === 's_curve'
+    ? [0, 90]
+    : [0, 45, 90, 135, 180, 225, 270, 315];
+}
+
 export function seatPositions(shape, wPx, hPx, maxSeats) {
   if (maxSeats <= 0) return [];
   

@@ -34,12 +34,25 @@ export const MOCK_WEDDINGS = [
     paid: 28000,
     pending: 14500,
     payments: [
-      { id: 'p1', label: 'Sinal (reserva)', amount: 5000, date: '2024-11-10', paid: true, method: 'Transferência' },
-      { id: 'p2', label: '2.ª Prestação (6 meses)', amount: 10000, date: '2025-03-20', paid: true, method: 'Transferência' },
-      { id: 'p3', label: '3.ª Prestação (3 meses)', amount: 8000, date: '2025-06-20', paid: true, method: 'Transferência' },
-      { id: 'p4', label: '4.ª Prestação (1 mês)', amount: 5000, date: '2025-08-20', paid: true, method: 'Transferência' },
-      { id: 'p5', label: 'Saldo Final', amount: 14500, date: '2025-09-20', paid: false, method: null },
+      { id: 'p1', label: 'Sinal (reserva)', amount: 5000, date: '2024-11-10', paid: true, method: 'Transferência', state: 'Pagamento Confirmado' },
+      { id: 'p2', label: '2.ª Prestação (6 meses)', amount: 10000, date: '2025-03-20', paid: true, method: 'Transferência', state: 'Fatura emitida' },
+      { id: 'p3', label: '3.ª Prestação (3 meses)', amount: 8000, date: '2025-06-20', paid: true, method: 'Transferência', state: 'Pago em Numerário' },
+      { id: 'p4', label: '4.ª Prestação (1 mês)', amount: 5000, date: '2025-08-20', paid: true, method: 'Transferência', state: 'Pagamento Confirmado' },
+      { id: 'p5', label: 'Saldo Final', amount: 14500, date: '2025-09-20', paid: false, method: null, state: 'Enviado' },
     ],
+    // Financeiro — Resumo de Contrato (fiel ao "financial.contractSummary" do original)
+    financial_contract: {
+      menu_name: 'Menu Experience Outono',
+      menu_value: 95,
+      min_guests: 150,
+      reservation_value: 5000,
+      extras: [
+        { id: 'sushi', name: 'Mesa de Sushi', value: 8, enabled: true },
+        { id: 'espumante', name: 'Espumante', value: 6, enabled: true },
+        { id: 'ceia_finger_food', name: 'Finger Food', value: 12, enabled: true },
+      ],
+      notes: 'Cliente pediu para reforçar a mesa de sushi — confirmar quantidade extra com a Rita.',
+    },
     // Detalhes do evento
     tipo: 'Casamento',
     pessoa1: 'Ana Carvalho',
@@ -75,6 +88,90 @@ export const MOCK_WEDDINGS = [
     hora_corte_bolo: new Date(new Date().setHours(23, 45, 0, 0)).toISOString(),
     hora_entrada_sala: new Date(new Date().setHours(21, 30, 0, 0)).toISOString(),
     hora_inicio_refeicao: new Date(new Date().setHours(21, 45, 0, 0)).toISOString(),
+    // Catering — Serviço
+    arrival_time: '10:00',
+    ceremony_time: '17:00',
+    service_hours: '10:00 – 03:00',
+    ceremony_location: 'Jardim dos Laranjais',
+    ceremony_type: 'Civil',
+    // Catering — Cocktail
+    appetizer_station_1: 'Estação de Queijos e Enchidos Regionais',
+    appetizer_station_2: 'Estação de Ostras e Marisco Fresco',
+    appetizer_station_3: 'Tábua de Presunto Ibérico e Azeitonas Temperadas',
+    appetizer_station_4: 'Finger Food Quente — Mini Bolinhos de Bacalhau',
+    appetizer_station_5: null,
+    appetizer_station_6: null,
+    servico_volante: true,
+    observacoes_cocktail: 'Reforçar staff de sala entre as 18h30 e as 19h15 devido à afluência esperada no cocktail.',
+    // Catering — Ementa (complementos)
+    ementa_corta_sabores: 'Sorbet de Limão e Manjericão',
+    ementa_carne_ponto: 'Ao ponto',
+    // Catering — Extras
+    kids_menu: true,
+    kids_menu_descricao: 'Mini hambúrgueres, nuggets de frango, batata frita e gelado de baunilha',
+    hora_extra: false,
+    set_up_mesa: 'Mesas redondas Ø180cm, toalha até ao chão em linho bege, talheres dourados e loiça branca com filete dourado',
+    // Catering — Degustação
+    degustacao_data: '2025-06-14',
+    degustacao_notas: 'Casal preferiu o ponto de carne mais rosado e pediu para reduzir o sal no risotto de limão.',
+    degustacao_vinhos: ['Douro DOC Reserva Tinto 2019', 'Vinho Verde Alvarinho 2023', 'Espumante Bruto Natural'],
+    degustacao_pratos: ['Croquetes de bacalhau', 'Rodovalho grelhado com risotto de limão', 'Borrego assado com batata hasselback'],
+    degustacao_pessoas_extra: 2,
+    degustacao_pessoas_extra_pago: true,
+    // Mesas — Questionário
+    seating_questionnaire: {
+      estimated_guests: 191,
+      table_style: 'round',
+      bride_groom_table: 'couple_only',
+    },
+    // Formulário de Intake
+    intake_form: {
+      assigned: true,
+      submitted_at: '2024-11-15T10:00:00',
+      answers: {
+        q1: 'Conheceram-se na faculdade, em Coimbra, há 8 anos.',
+        q2: 'Gostariam de incluir a bênção do padrinho da noiva antes do brinde.',
+        q3: 'Civil',
+        q4: 'Um amigo próximo, oficiante certificado.',
+        q5: 'Sim, para as amigas solteiras.',
+        q6: 'Sim — alergia a frutos secos (2 convidados) e um caso de intolerância ao glúten.',
+        q7: 'Não.',
+        q8: 'Preferem que os convidados já estejam sentados antes da entrada dos noivos.',
+        q9: 'Tons terrosos — bege, dourado e verde oliveira.',
+        q10: 'Sim, vão enviar um Pinterest board por email.',
+        q11: 'Jazz suave e bossa nova durante o cocktail.',
+        q12: '"A Thousand Years" — versão instrumental.',
+        q13: 'Sim, para cerca de 15 convidados vindos de fora.',
+        q14: 'Sim, autocarro de regresso à 1h da manhã.',
+      },
+    },
+    // Action Items — reuniões e follow-ups
+    action_items: [
+      {
+        id: 'ai1',
+        section: 'Reunião Inicial (15 Nov 2024)',
+        items: [
+          { id: 'ai1-1', text: 'Enviar proposta de menu degustação', done: true },
+          { id: 'ai1-2', text: 'Confirmar disponibilidade do DJ Rui para a data', done: true },
+          { id: 'ai1-3', text: 'Pedir ao casal lista de músicas a evitar', done: false },
+        ],
+      },
+      {
+        id: 'ai2',
+        section: 'Reunião de Decoração (10 Jan 2025)',
+        items: [
+          { id: 'ai2-1', text: 'Preparar moodboard com paleta terrosa', done: true },
+          { id: 'ai2-2', text: 'Confirmar orçamento extra para suspensão floral', done: false },
+          { id: 'ai2-3', text: 'Enviar referências de mesa de sushi ao casal', done: false },
+        ],
+      },
+    ],
+    // Timelines — estado de publicação por coluna (Geral / Planning / Catering)
+    timeline_publish_state: {
+      geral: { published: true, last_published_at: '2025-08-01T10:00:00' },
+      planning: { published: true, last_published_at: '2025-08-15T09:30:00' },
+      catering: { published: false, last_published_at: null },
+    },
   },
   {
     id: 'w2',
@@ -108,6 +205,13 @@ export const MOCK_WEDDINGS = [
     pessoa1: 'Catarina Ferreira',
     pessoa2: 'Pedro Ferreira',
     local_cerimonia: 'Jardim dos Laranjais',
+    intake_form: { assigned: true, submitted_at: null, answers: {} },
+    action_items: [],
+    timeline_publish_state: {
+      geral: { published: false, last_published_at: null },
+      planning: { published: false, last_published_at: null },
+      catering: { published: false, last_published_at: null },
+    },
   },
   {
     id: 'w3',
@@ -142,22 +246,56 @@ export const MOCK_WEDDINGS = [
     pessoa1: 'Inês Oliveira',
     pessoa2: 'Ricardo Oliveira',
     local_cerimonia: 'Jardim dos Laranjais',
+    intake_form: { assigned: false, submitted_at: null, answers: {} },
+    action_items: [],
+    timeline_publish_state: {
+      geral: { published: false, last_published_at: null },
+      planning: { published: false, last_published_at: null },
+      catering: { published: false, last_published_at: null },
+    },
   },
 ];
 
-export const MOCK_PHASES = [
-  { id: 'intro',          label: 'Introdução Inicial',          color: 'phase-intro',      offsetMonths: 12, order: 1 },
-  { id: 'decor',          label: 'Decor',                       color: 'phase-decor',      offsetMonths: 10, order: 2 },
-  { id: 'degustacao',     label: 'Degustação',                  color: 'phase-degustacao', offsetMonths: 8,  order: 3 },
-  { id: 'layout',         label: 'Layout',                      color: 'phase-layout',     offsetMonths: 7,  order: 4 },
-  { id: 'pos_degustacao', label: 'Após Prova de Degustação',    color: 'phase-other',      offsetMonths: 5,  order: 5 },
-  { id: 'fase4',          label: 'Nr. Final de Convidados',      color: 'phase-other',      offsetMonths: 3,  order: 6 },
-  { id: 'fase5',          label: 'Reunião',                      color: 'phase-other',      offsetMonths: 3,  order: 7 },
-  { id: 'fase6',          label: 'Fornecedores e Reunião',       color: 'phase-other',      offsetMonths: 2,  order: 8 },
-  { id: 'fase7',          label: 'Timeline e Entregas',          color: 'phase-other',      offsetMonths: 0,  order: 9 },
-  { id: 'fase8',          label: 'Preparação do Evento',         color: 'phase-other',      offsetMonths: 0,  order: 10 },
-  { id: 'pos_evento',     label: 'Pós Evento',                   color: 'phase-other',      offsetMonths: 0,  order: 11 },
+// Formulário de Intake — perguntas por secção (fiel ao "intakeForm.questions" do original)
+export const MOCK_INTAKE_QUESTIONS = [
+  { id: 'q1', section: 'Sobre o Casal', question: 'Como se conheceram?' },
+  { id: 'q2', section: 'Sobre o Casal', question: 'Têm alguma tradição familiar que gostariam de incluir no dia?' },
+  { id: 'q3', section: 'Cerimónia', question: 'A cerimónia será civil ou religiosa?' },
+  { id: 'q4', section: 'Cerimónia', question: 'Quem vai celebrar a cerimónia?' },
+  { id: 'q5', section: 'Cerimónia', question: 'Vai haver lançamento de ramo?' },
+  { id: 'q6', section: 'Convidados', question: 'Existem restrições alimentares a registar?' },
+  { id: 'q7', section: 'Convidados', question: 'Há convidados com mobilidade reduzida?' },
+  { id: 'q8', section: 'Convidados', question: 'Preferem os convidados a chegar antes ou depois dos noivos?' },
+  { id: 'q9', section: 'Decoração', question: 'Qual a paleta de cores pretendida?' },
+  { id: 'q10', section: 'Decoração', question: 'Têm inspirações ou referências visuais para partilhar?' },
+  { id: 'q11', section: 'Música & Animação', question: 'Que estilo de música preferem para o cocktail?' },
+  { id: 'q12', section: 'Música & Animação', question: 'Há alguma música especial para a entrada dos noivos?' },
+  { id: 'q13', section: 'Logística', question: 'Precisam de alojamento para convidados?' },
+  { id: 'q14', section: 'Logística', question: 'Vão precisar de transporte para os convidados?' },
 ];
+
+// deadlineType replica "journey.deadlineWeddingDay/Immediate/Before/After" do original —
+// tipo de prazo relativo à data do casamento para as tarefas dessa fase.
+export const MOCK_PHASES = [
+  { id: 'intro',          label: 'Introdução Inicial',          color: 'phase-intro',      offsetMonths: 12, order: 1,  deadlineType: 'immediate' },
+  { id: 'decor',          label: 'Decor',                       color: 'phase-decor',      offsetMonths: 10, order: 2,  deadlineType: 'before' },
+  { id: 'degustacao',     label: 'Degustação',                  color: 'phase-degustacao', offsetMonths: 8,  order: 3,  deadlineType: 'before' },
+  { id: 'layout',         label: 'Layout',                      color: 'phase-layout',     offsetMonths: 7,  order: 4,  deadlineType: 'before' },
+  { id: 'pos_degustacao', label: 'Após Prova de Degustação',    color: 'phase-other',      offsetMonths: 5,  order: 5,  deadlineType: 'before' },
+  { id: 'fase4',          label: 'Nr. Final de Convidados',      color: 'phase-other',      offsetMonths: 3,  order: 6,  deadlineType: 'before' },
+  { id: 'fase5',          label: 'Reunião',                      color: 'phase-other',      offsetMonths: 3,  order: 7,  deadlineType: 'before' },
+  { id: 'fase6',          label: 'Fornecedores e Reunião',       color: 'phase-other',      offsetMonths: 2,  order: 8,  deadlineType: 'before' },
+  { id: 'fase7',          label: 'Timeline e Entregas',          color: 'phase-other',      offsetMonths: 0,  order: 9,  deadlineType: 'before' },
+  { id: 'fase8',          label: 'Preparação do Evento',         color: 'phase-other',      offsetMonths: 0,  order: 10, deadlineType: 'wedding_day' },
+  { id: 'pos_evento',     label: 'Pós Evento',                   color: 'phase-other',      offsetMonths: 0,  order: 11, deadlineType: 'after' },
+];
+
+export const DEADLINE_TYPE_LABELS = {
+  immediate: 'Imediato',
+  before: 'Antes do Casamento',
+  wedding_day: 'Dia do Casamento',
+  after: 'Após o Casamento',
+};
 
 export const MOCK_TASKS_TEMPLATE = [
   // ── Introdução Inicial ──
@@ -173,7 +311,7 @@ export const MOCK_TASKS_TEMPLATE = [
   { id: 't10', description: 'Quando o cliente responder ao e-mail boas vindas, dar resposta ao mesmo', assignee: 'Diva', phaseId: 'intro' },
   { id: 't11', description: 'Colocar na agenda lembrete para relembrar 1 semana antes a reunião', assignee: 'Diva', phaseId: 'intro' },
   { id: 't12', description: 'Colocar na agenda a encomenda floral e avisar a Dani para também colocar', assignee: 'Rita', phaseId: 'intro' },
-  { id: 't13', description: 'Fazer encomenda da caixa de noivos',                       assignee: 'Sofia',   phaseId: 'intro' },
+  { id: 't13', description: 'Fazer encomenda da caixa de noivos',                       assignee: 'Sofia',   phaseId: 'intro', package: 'experience' },
   { id: 't14', description: 'Bloquear data com pasteleiro',                             assignee: 'Sofia',   phaseId: 'intro' },
   { id: 't15', description: 'Adicionar à Dashboard o fornecedor responsável pelo bolo', assignee: 'Sofia',   phaseId: 'intro' },
   // ── Decor ──
@@ -241,11 +379,11 @@ export const MOCK_TASKS_TEMPLATE = [
   { id: 't69', description: 'Fazer os arranjos florais',                                 assignee: 'Rita',   phaseId: 'fase8' },
   { id: 't70', description: 'Ao receber o material dos noivos, assinar os Termos aplicáveis e rever timeline', assignee: 'Rita', phaseId: 'fase8' },
   { id: 't71', description: 'Montagem de arranjos no evento',                            assignee: 'Rita',   phaseId: 'fase8' },
-  { id: 't72', description: 'Garantir que já temos a caixa dos noivos cá',               assignee: 'Sofia',  phaseId: 'fase8' },
+  { id: 't72', description: 'Garantir que já temos a caixa dos noivos cá',               assignee: 'Sofia',  phaseId: 'fase8', package: 'experience' },
   { id: 't73', description: 'Montagem do estacionário do evento',                        assignee: 'Sofia',  phaseId: 'fase8' },
   { id: 't74', description: 'Montagem geral do evento com a Fabiana',                    assignee: 'Sofia',  phaseId: 'fase8' },
   { id: 't75', description: 'Posicionar o material dos noivos',                          assignee: 'Sofia',  phaseId: 'fase8' },
-  { id: 't76', description: 'Preparar a sala de noivos com caixa',                       assignee: 'Sofia',  phaseId: 'fase8' },
+  { id: 't76', description: 'Preparar a sala de noivos com caixa',                       assignee: 'Sofia',  phaseId: 'fase8', package: 'experience' },
   { id: 't77', description: 'Recolha de material e preparação do evento',                assignee: 'Fabiana',phaseId: 'fase8' },
   { id: 't78', description: 'Preparar toalhas e guardanapos',                            assignee: 'Fabiana',phaseId: 'fase8' },
   { id: 't79', description: 'Questionar à Madalena o nr. de aventais e colocar na sala de staff', assignee: 'Fabiana', phaseId: 'fase8' },
@@ -260,6 +398,29 @@ export const MOCK_TASKS_TEMPLATE = [
   { id: 't87', description: 'Desmontagem do evento + manutenção material',               assignee: 'Fabiana',phaseId: 'pos_evento' },
   { id: 't88', description: 'Enviar à Inês o total de horas a pagamento de cada staff',  assignee: 'Fabiana',phaseId: 'pos_evento' },
   { id: 't89', description: 'Armazenamento e manutenção do material do evento',          assignee: 'Fabiana',phaseId: 'pos_evento' },
+];
+
+// Timeline "Geral" — visão macro do dia, partilhável com o casal.
+export const MOCK_TIMELINE_GERAL = [
+  { id: 'tg1', time: '17:00', label: 'Cerimónia',                  local: 'Jardim dos Laranjais', notes: '',  visible_to_vendors: true },
+  { id: 'tg2', time: '18:00', label: 'Cocktail',                   local: 'Zona das Arcadas',      notes: '',  visible_to_vendors: true },
+  { id: 'tg3', time: '21:30', label: 'Jantar',                     local: 'Salão Principal',       notes: '',  visible_to_vendors: true },
+  { id: 'tg4', time: '00:15', label: 'Abertura da pista de dança', local: 'Salão',                 notes: '',  visible_to_vendors: true },
+  { id: 'tg5', time: '03:00', label: 'Fim do evento',              local: '',                      notes: '',  visible_to_vendors: true },
+];
+
+// Timeline "Planning" — cronograma operacional detalhado da coordenação.
+export const MOCK_TIMELINE_PLANNING = [
+  { id: 'tp1',  time: '08:00', label: 'Montagem geral — decoração e mobiliário', local: 'Salão Principal',   notes: 'Equipa Sofia + Fabiana',        visible_to_vendors: false },
+  { id: 'tp2',  time: '10:00', label: 'Chegada equipa cozinha',                  local: 'Cozinha',            notes: '',                              visible_to_vendors: true },
+  { id: 'tp3',  time: '14:00', label: 'Chegada equipa sala',                     local: 'Staff Room',         notes: '',                              visible_to_vendors: true },
+  { id: 'tp4',  time: '15:00', label: 'Prova de som e testes AV',                local: 'Salão Principal',   notes: 'Confirmar com DJ Rui',          visible_to_vendors: true },
+  { id: 'tp5',  time: '16:00', label: 'Chegada de fornecedores externos',        local: 'Portão de Serviço', notes: '',                              visible_to_vendors: true },
+  { id: 'tp6',  time: '17:00', label: 'Cerimónia',                               local: 'Jardim dos Laranjais', notes: '',                           visible_to_vendors: true },
+  { id: 'tp7',  time: '18:00', label: 'Cocktail',                                local: 'Zona das Arcadas',  notes: '',                              visible_to_vendors: true },
+  { id: 'tp8',  time: '21:30', label: 'Jantar',                                  local: 'Salão Principal',   notes: '',                              visible_to_vendors: true },
+  { id: 'tp9',  time: '23:45', label: 'Corte do bolo',                           local: 'Jardim',             notes: 'Preparar cascata de fogo',     visible_to_vendors: true },
+  { id: 'tp10', time: '03:00', label: 'Desmontagem',                             local: 'Salão Principal',   notes: 'Equipa fica até às 5h',        visible_to_vendors: false },
 ];
 
 export const MOCK_CATERING_TIMELINE = [
@@ -295,9 +456,25 @@ export const MOCK_STAFF = [
   { id: 's6', name: 'Madalena', role: 'Cozinha — Chef',                  phone: '' },
 ];
 
-// Fornecedores: no LDV original estes são geridos por evento via API.
-// Aqui mantemos uma lista placeholder genérica (sem dados da QDA).
-export const MOCK_FORNECEDORES = [];
+// Fornecedores: no original (main.js) estes são "partners" geridos via API/BD
+// (procura + criação ad-hoc, partner_role é texto livre, não uma lista fixa).
+// Não há catálogo estático de fornecedores reais no bundle para extrair — esta
+// é uma lista de amostra realista, com o mesmo modelo de campos do original
+// (nome, role, telemóvel, email).
+export const MOCK_FORNECEDORES = [
+  { id: 'f1', nome: 'DJ Rui Almeida', tipo: 'Música', contacto: '+351 912 345 678', email: 'rui@djrui.pt' },
+  { id: 'f2', nome: 'Duo João & Maria (Cordas)', tipo: 'Música', contacto: '+351 913 456 789', email: 'duocordas@gmail.com' },
+  { id: 'f3', nome: 'Miguel Santos Fotografia', tipo: 'Fotografia', contacto: '+351 914 567 890', email: 'geral@miguelsantos.pt' },
+  { id: 'f4', nome: 'Lente & Luz Wedding Films', tipo: 'Vídeo', contacto: '+351 915 678 901', email: 'contacto@lenteeluz.pt' },
+  { id: 'f5', nome: 'Flores da Vila', tipo: 'Florista', contacto: '+351 916 789 012', email: 'encomendas@floresdavila.pt' },
+  { id: 'f6', nome: 'Pastelaria Dulcínea', tipo: 'Bolo', contacto: '+351 917 890 123', email: 'bolos@dulcinea.pt' },
+  { id: 'f7', nome: 'AutoCarros Costa Verde', tipo: 'Transporte', contacto: '+351 918 901 234', email: 'reservas@costaverde-transportes.pt' },
+  { id: 'f8', nome: 'Grupo Sparks & Fogo', tipo: 'Animação', contacto: '+351 919 012 345', email: 'geral@sparksfogo.pt' },
+  { id: 'f9', nome: 'Ana Marques Cabeleireira', tipo: 'Beleza', contacto: '+351 920 123 456', email: 'ana.marques.hair@gmail.com' },
+  { id: 'f10', nome: 'Carlos Reis — Celebrante Civil', tipo: 'Celebrante', contacto: '+351 921 234 567', email: 'carlos.celebrante@gmail.com' },
+];
+
+const decorItem = (nome) => ({ nome, qty: 0, obs: '' });
 
 export const MOCK_DECOR = {
   package: 'experience',
@@ -326,25 +503,48 @@ export const MOCK_DECOR = {
   cerimonia_chuva_amor: null,
   bouquets_boutonnieres: 'Bouquet de noiva em hortênsias e lírios do vale. Boutonnière em espiga de trigo.',
   outros: 'Sinalética em calligraphy para mesa de nomes, menu e escort cards',
+  items: {
+    bases: [
+      'Base Branca', 'Base Dourada Lisa', 'Base Dourada Média', 'Base Dourada Grande',
+      'Base Dourada Trabalhada', 'Base Mármore', 'Base com Pé Marfim', 'Base Aperitivos',
+      'Base Prato de Pão', 'Base Pequena Branca', 'Base Branca e Dourada',
+    ].map(decorItem),
+    candeeiros: [
+      'Candeeiro Branco', 'Candeeiro Dourado Baixo', 'Candeeiro Preto', 'Candeeiro Preto Alto',
+      'Candeeiro Preto e Dourado', 'Candeeiro Pé Alto Dourado',
+    ].map(decorItem),
+    casticais: [
+      'Castiçal Bege', 'Castiçal Básico Baixo', 'Castiçal Dourado', 'Castiçal Laranja',
+      'Castiçal Latão', 'Castiçal Novo', 'Castiçal Oval', 'Castiçal Pequeno',
+      'Castiçal Pintado', 'Castiçal Trabalhado Baixo', 'Castiçal Vermelho',
+    ].map(decorItem),
+    campanulas: ['Campânula', 'Campânula Madeira'].map(decorItem),
+    tealights: ['Tealight Laranja', 'Tealight Pequeno', 'Tealight com Dourado'].map(decorItem),
+    jarrinhas: Array.from({ length: 18 }, (_, i) => decorItem(`Jarrinha J${i + 1}`)),
+    tabuleiros: ['Tabuleiro Grande', 'Tabuleiro Médio', 'Tabuleiro Pequeno'].map(decorItem),
+    outros: ['Vidros Velas Grossas'].map(decorItem),
+  },
 };
 
 export const MOCK_GUESTS = [
-  { id: 'g1',  first_name: 'João',     last_name: 'Silva',     guest_type: 'adult',     dietary_restriction: null,                       assigned_seat: null },
-  { id: 'g2',  first_name: 'Maria',    last_name: 'Santos',    guest_type: 'adult',     dietary_restriction: 'vegetariana',              assigned_seat: null },
-  { id: 'g3',  first_name: 'Ana',      last_name: 'Costa',     guest_type: 'adult',     dietary_restriction: null,                       assigned_seat: null },
-  { id: 'g4',  first_name: 'Pedro',    last_name: 'Alves',     guest_type: 'adult',     dietary_restriction: null,                       assigned_seat: null },
-  { id: 'g5',  first_name: 'Sofia',    last_name: 'Mendes',    guest_type: 'child_4_9', dietary_restriction: null,                       assigned_seat: null },
-  { id: 'g6',  first_name: 'Luís',     last_name: 'Ferreira',  guest_type: 'adult',     dietary_restriction: 'intolerante ao glúten',    assigned_seat: null },
-  { id: 'g7',  first_name: 'Carla',    last_name: 'Ramos',     guest_type: 'adult',     dietary_restriction: null,                       assigned_seat: null },
-  { id: 'g8',  first_name: 'Bruno',    last_name: 'Martins',   guest_type: 'adult',     dietary_restriction: 'alergia a frutos secos',   assigned_seat: null },
-  { id: 'g9',  first_name: 'Teresa',   last_name: 'Lima',      guest_type: 'adult',     dietary_restriction: null,                       assigned_seat: null },
-  { id: 'g10', first_name: 'Miguel',   last_name: 'Fonseca',   guest_type: 'adult',     dietary_restriction: null,                       assigned_seat: null },
-  { id: 'g11', first_name: 'Beatriz',  last_name: 'Nunes',     guest_type: 'adult',     dietary_restriction: null,                       assigned_seat: null },
-  { id: 'g12', first_name: 'Diogo',    last_name: 'Pereira',   guest_type: 'adult',     dietary_restriction: null,                       assigned_seat: null },
-  { id: 'g13', first_name: 'Mariana',  last_name: 'Gomes',     guest_type: 'adult',     dietary_restriction: 'vegan',                    assigned_seat: null },
-  { id: 'g14', first_name: 'Tomás',    last_name: 'Rodrigues', guest_type: 'adult',     dietary_restriction: null,                       assigned_seat: null },
-  { id: 'g15', first_name: 'Inês',     last_name: 'Correia',   guest_type: 'adult',     dietary_restriction: null,                       assigned_seat: null },
-  { id: 'g16', first_name: 'Rafael',   last_name: 'Sousa',     guest_type: 'adult',     dietary_restriction: null,                       assigned_seat: null },
+  { id: 'g1',  first_name: 'João',     last_name: 'Silva',     guest_type: 'adult',     dietary_restriction: null,                     chair_type: 'simple',    menu: 'generic',           language: 'pt', assigned_seat: null },
+  { id: 'g2',  first_name: 'Maria',    last_name: 'Santos',    guest_type: 'adult',     dietary_restriction: 'vegetariana',            chair_type: 'simple',    menu: 'veggie',            language: 'pt', assigned_seat: null },
+  { id: 'g3',  first_name: 'Ana',      last_name: 'Costa',     guest_type: 'adult',     dietary_restriction: null,                     chair_type: 'simple',    menu: 'generic',           language: 'pt', assigned_seat: null },
+  { id: 'g4',  first_name: 'Pedro',    last_name: 'Alves',     guest_type: 'adult',     dietary_restriction: null,                     chair_type: 'simple',    menu: 'generic',           language: 'pt', assigned_seat: null },
+  { id: 'g5',  first_name: 'Sofia',    last_name: 'Mendes',    guest_type: 'child_4_9', dietary_restriction: null,                     chair_type: 'simple',    menu: 'kids',              language: 'pt', assigned_seat: null },
+  { id: 'g6',  first_name: 'Luís',     last_name: 'Ferreira',  guest_type: 'adult',     dietary_restriction: 'intolerante ao glúten',  chair_type: 'simple',    menu: 'restriction_based', language: 'pt', assigned_seat: null },
+  { id: 'g7',  first_name: 'Carla',    last_name: 'Ramos',     guest_type: 'adult',     dietary_restriction: null,                     chair_type: 'simple',    menu: 'generic',           language: 'pt', assigned_seat: null },
+  { id: 'g8',  first_name: 'Bruno',    last_name: 'Martins',   guest_type: 'adult',     dietary_restriction: 'alergia a frutos secos', chair_type: 'simple',    menu: 'restriction_based', language: 'pt', assigned_seat: null },
+  { id: 'g9',  first_name: 'Teresa',   last_name: 'Lima',      guest_type: 'adult',     dietary_restriction: null,                     chair_type: 'wheelchair',menu: 'generic',           language: 'pt', assigned_seat: null },
+  { id: 'g10', first_name: 'Miguel',   last_name: 'Fonseca',   guest_type: 'adult',     dietary_restriction: null,                     chair_type: 'simple',    menu: 'generic',           language: 'pt', assigned_seat: null },
+  { id: 'g11', first_name: 'Beatriz',  last_name: 'Nunes',     guest_type: 'adult',     dietary_restriction: null,                     chair_type: 'simple',    menu: 'generic',           language: 'en', assigned_seat: null },
+  { id: 'g12', first_name: 'Diogo',    last_name: 'Pereira',   guest_type: 'adult',     dietary_restriction: null,                     chair_type: 'simple',    menu: 'generic',           language: 'pt', assigned_seat: null },
+  { id: 'g13', first_name: 'Mariana',  last_name: 'Gomes',     guest_type: 'adult',     dietary_restriction: 'vegan',                  chair_type: 'simple',    menu: 'veggie',            language: 'pt', assigned_seat: null },
+  { id: 'g14', first_name: 'Tomás',    last_name: 'Rodrigues', guest_type: 'adult',     dietary_restriction: null,                     chair_type: 'simple',    menu: 'generic',           language: 'pt', assigned_seat: null },
+  { id: 'g15', first_name: 'Inês',     last_name: 'Correia',   guest_type: 'adult',     dietary_restriction: null,                     chair_type: 'simple',    menu: 'generic',           language: 'es', assigned_seat: null },
+  { id: 'g16', first_name: 'Rafael',   last_name: 'Sousa',     guest_type: 'adult',     dietary_restriction: null,                     chair_type: 'simple',    menu: 'generic',           language: 'pt', assigned_seat: null },
+  { id: 'g17', first_name: 'Leonor',   last_name: 'Sousa',     guest_type: 'child_0_3', dietary_restriction: null,                     chair_type: 'stroller',  menu: 'no_menu_baby',      language: 'pt', assigned_seat: null },
+  { id: 'g18', first_name: 'Fabiana',  last_name: 'Duarte',    guest_type: 'staff',     dietary_restriction: null,                     chair_type: 'simple',    menu: 'generic',           language: 'pt', assigned_seat: null },
 ];
 
 

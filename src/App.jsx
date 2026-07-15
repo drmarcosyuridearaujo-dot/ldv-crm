@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route, Navigate, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { MOCK_WEDDINGS } from './data/mockData';
+import Sidebar from './components/Sidebar';
 import LoginPage, { ROLE_PERMISSIONS } from './pages/LoginPage';
 import WeddingListPage from './pages/WeddingListPage';
 import WeddingDetailLayout from './pages/WeddingDetailLayout';
@@ -11,8 +12,11 @@ import WeddingSeating from './pages/tabs/WeddingSeating';
 import WeddingDecor from './pages/tabs/WeddingDecor';
 import WeddingContacts from './pages/tabs/WeddingContacts';
 import WeddingJourney from './pages/tabs/WeddingJourney';
+import WeddingIntakeForm from './pages/tabs/WeddingIntakeForm';
+import WeddingActionItems from './pages/tabs/WeddingActionItems';
 import PrintSeating from './pages/print/PrintSeating';
 import PrintDecor from './pages/print/PrintDecor';
+import PrintDecorItems from './pages/print/PrintDecorItems';
 import PrintTimeline from './pages/print/PrintTimeline';
 import './App.css';
 
@@ -23,48 +27,6 @@ const ROLE_LABELS = {
   decoracao: 'Decoração',
   admin: 'Admin',
 };
-
-function Sidebar({ role }) {
-  return (
-    <div className="ldv-sidebar">
-      <div className="ldv-sidebar-nav">
-        <div className="ldv-sidebar-title">Geral</div>
-        <NavLink to="/dashboard" className={({ isActive }) => `ldv-nav-item ${isActive ? 'active' : ''}`}>
-          <span className="ldv-nav-icon">📊</span> Dashboard
-        </NavLink>
-        <NavLink to="/calendar" className={({ isActive }) => `ldv-nav-item ${isActive ? 'active' : ''}`}>
-          <span className="ldv-nav-icon">📅</span> Calendário
-        </NavLink>
-        <NavLink to="/tasks" className={({ isActive }) => `ldv-nav-item ${isActive ? 'active' : ''}`}>
-          <span className="ldv-nav-icon">✅</span> Tarefas
-        </NavLink>
-      </div>
-
-      <div className="ldv-sidebar-nav" style={{ marginTop: 24 }}>
-        <div className="ldv-sidebar-title">Casamentos (Ativos)</div>
-        {MOCK_WEDDINGS.map(w => (
-          <NavLink
-            key={w.id}
-            to={`/wedding/${w.id}`}
-            className={({ isActive }) => `ldv-nav-item ${isActive ? 'active' : ''}`}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%' }}>
-              <div className="ldv-avatar-sm">{w.bride[0]}{w.groom[0]}</div>
-              <div style={{ overflow: 'hidden' }}>
-                <div style={{ fontSize: 13, fontWeight: 500, whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
-                  {w.bride} & {w.groom}
-                </div>
-                <div style={{ fontSize: 11, color: 'var(--text3)' }}>
-                  {new Date(w.date).toLocaleDateString('pt-PT', { day: '2-digit', month: 'short' })}
-                </div>
-              </div>
-            </div>
-          </NavLink>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 function Header({ onLogout, role }) {
   const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains('dark-theme'));
@@ -177,6 +139,7 @@ export default function App() {
       <Routes>
         <Route path="/wedding/:id/seating/print" element={<PrintSeating />} />
         <Route path="/wedding/:id/decor/print" element={<PrintDecor />} />
+        <Route path="/wedding/:id/decor-items/print" element={<PrintDecorItems />} />
         <Route path="/wedding/:id/timeline/print/planning" element={<PrintTimeline />} />
       </Routes>
     );
@@ -193,6 +156,7 @@ export default function App() {
         <main className="ldv-content">
           <Routes>
             <Route path="/dashboard" element={<WeddingListPage />} />
+            <Route path="/calendar" element={<WeddingListPage defaultView="calendar" />} />
             <Route path="/wedding/:id" element={<WeddingDetailLayout role={role} allowedTabs={allowedTabs} />}>
               <Route index element={<Navigate to="overview" replace />} />
               <Route path="overview" element={<WeddingOverview />} />
@@ -213,6 +177,12 @@ export default function App() {
               )}
               {allowedTabs.includes('journey') && (
                 <Route path="journey" element={<WeddingJourney />} />
+              )}
+              {allowedTabs.includes('intake') && (
+                <Route path="intake" element={<WeddingIntakeForm />} />
+              )}
+              {allowedTabs.includes('actions') && (
+                <Route path="actions" element={<WeddingActionItems />} />
               )}
             </Route>
             <Route path="*" element={<Navigate to="/dashboard" replace />} />

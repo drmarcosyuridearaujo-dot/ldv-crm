@@ -1,11 +1,26 @@
 import { useState, useMemo } from 'react';
-import { MOCK_TASKS_TEMPLATE, MOCK_PHASES } from '../../data/mockData';
+import { useOutletContext } from 'react-router-dom';
+import { MOCK_TASKS_TEMPLATE, MOCK_PHASES, DEADLINE_TYPE_LABELS } from '../../data/mockData';
 import { useToast } from '../../context/ToastContext';
 
 const ASSIGNEES = [...new Set(MOCK_TASKS_TEMPLATE.map(t => t.assignee))].sort();
 
+const DEADLINE_BADGE_STYLE = {
+  immediate:   { bg: 'var(--accent-bg)', color: 'var(--accent)' },
+  before:      { bg: 'var(--bg3)', color: 'var(--text2)' },
+  wedding_day: { bg: 'var(--gold-bg)', color: 'var(--gold)' },
+  after:       { bg: 'var(--success-bg)', color: 'var(--success)' },
+};
+
 export default function WeddingJourney() {
-  const [tasks, setTasks] = useState(() => MOCK_TASKS_TEMPLATE.map(t => ({ ...t, done: false })));
+  const { wedding } = useOutletContext();
+  // Tarefas do pacote Experience só aparecem para casamentos Experience —
+  // réplica de "journey.essentialsLabel" / "journey.experienceLabel" do original.
+  const packageTasks = useMemo(
+    () => MOCK_TASKS_TEMPLATE.filter(t => !t.package || t.package === 'all' || t.package === wedding.package),
+    [wedding.package]
+  );
+  const [tasks, setTasks] = useState(() => packageTasks.map(t => ({ ...t, done: false })));
   const [expandedPhases, setExpandedPhases] = useState(MOCK_PHASES.map(p => p.id));
   const [filterAssignee, setFilterAssignee] = useState('');
   const [filterDone, setFilterDone] = useState('all'); // 'all' | 'done' | 'pending'
@@ -40,7 +55,12 @@ export default function WeddingJourney() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20, gap: 16, flexWrap: 'wrap' }}>
         <div>
-          <h2 style={{ fontSize: 18, fontWeight: 600 }}>Workflow de Tarefas</h2>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <h2 style={{ fontSize: 18, fontWeight: 600 }}>Workflow de Tarefas</h2>
+            <span className={`badge ${wedding.package === 'experience' ? 'badge-gold' : 'badge-blue'}`}>
+              {wedding.package === 'experience' ? '✨ Experience' : '⭐ Classic'}
+            </span>
+          </div>
           <div style={{ fontSize: 13, color: 'var(--text3)', marginTop: 2 }}>
             {totalDone} / {tasks.length} concluídas · {pct}%
           </div>
@@ -144,6 +164,16 @@ export default function WeddingJourney() {
               <span className={`phase-tag ${phase.color}`} style={{ marginLeft: 8 }}>
                 {doneCount}/{allPhaseTasks.length}
               </span>
+
+              {phase.deadlineType && (
+                <span style={{
+                  fontSize: 10, fontWeight: 600, padding: '2px 8px', borderRadius: 20, marginLeft: 6,
+                  background: DEADLINE_BADGE_STYLE[phase.deadlineType]?.bg,
+                  color: DEADLINE_BADGE_STYLE[phase.deadlineType]?.color,
+                }}>
+                  {DEADLINE_TYPE_LABELS[phase.deadlineType]}
+                </span>
+              )}
 
               {/* Mini progress */}
               <div style={{ flex: 1, height: 4, background: 'var(--bg3)', borderRadius: 2, overflow: 'hidden', marginLeft: 8 }}>

@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MOCK_WEDDINGS } from '../data/mockData';
+import WeddingCalendarView from '../components/WeddingCalendarView';
 
 function fmt(dateStr) {
   if (!dateStr) return '—';
@@ -29,8 +31,15 @@ function PackageBadge({ pkg }) {
   return <span className={`badge ${cls}`}>{label}</span>;
 }
 
-export default function WeddingListPage() {
+export default function WeddingListPage({ defaultView = 'list' }) {
   const navigate = useNavigate();
+  const [view, setView] = useState(defaultView);
+  const [search, setSearch] = useState('');
+
+  const filtered = search.trim()
+    ? MOCK_WEDDINGS.filter(w =>
+        `${w.bride} ${w.groom} ${w.surname}`.toLowerCase().includes(search.trim().toLowerCase()))
+    : MOCK_WEDDINGS;
 
   return (
     <div className="page-content">
@@ -39,10 +48,45 @@ export default function WeddingListPage() {
           <div className="page-title">Casamentos</div>
           <div className="page-sub">{MOCK_WEDDINGS.length} eventos ativos</div>
         </div>
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+          <input
+            className="input"
+            style={{ width: 220 }}
+            placeholder="Pesquisar casal..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+          <div style={{ display: 'flex', border: '1px solid var(--border2)', borderRadius: 6, overflow: 'hidden' }}>
+            <button
+              className="btn btn-sm"
+              style={{ borderRadius: 0, background: view === 'list' ? 'var(--text)' : 'transparent', color: view === 'list' ? '#fff' : 'var(--text2)' }}
+              onClick={() => setView('list')}
+              title="Ver lista"
+            >
+              ☰ Lista
+            </button>
+            <button
+              className="btn btn-sm"
+              style={{ borderRadius: 0, background: view === 'calendar' ? 'var(--text)' : 'transparent', color: view === 'calendar' ? '#fff' : 'var(--text2)', borderLeft: '1px solid var(--border2)' }}
+              onClick={() => setView('calendar')}
+              title="Ver calendário"
+            >
+              📅 Calendário
+            </button>
+          </div>
+        </div>
       </div>
 
+      {view === 'calendar' ? (
+        <WeddingCalendarView weddings={filtered} />
+      ) : (
       <div className="grid-2" style={{ gap: 16 }}>
-        {MOCK_WEDDINGS.map(w => {
+        {filtered.length === 0 && (
+          <div style={{ gridColumn: '1 / -1', textAlign: 'center', color: 'var(--text3)', padding: 24, fontStyle: 'italic' }}>
+            Nenhum casamento encontrado.
+          </div>
+        )}
+        {filtered.map(w => {
           const pct = Math.round((w.tasks_done / w.tasks_total) * 100);
           const days = Math.ceil((new Date(w.date) - new Date()) / 86400000);
           return (
@@ -90,6 +134,7 @@ export default function WeddingListPage() {
           );
         })}
       </div>
+      )}
     </div>
   );
 }
