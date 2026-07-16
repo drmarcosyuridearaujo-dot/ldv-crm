@@ -12,6 +12,7 @@ export const MOCK_WEDDINGS = [
   {
     id: 'w1',
     deal_id: 'LDV-2025-001',
+    share_token: 'a3f9c2e1',
     bride: 'Ana',
     groom: 'Tomás',
     surname: 'Carvalho & Ferreira',
@@ -176,6 +177,7 @@ export const MOCK_WEDDINGS = [
   {
     id: 'w2',
     deal_id: 'LDV-2025-002',
+    share_token: 'b7d2f4a8',
     bride: 'Catarina',
     groom: 'Pedro',
     surname: 'Ferreira',
@@ -216,6 +218,7 @@ export const MOCK_WEDDINGS = [
   {
     id: 'w3',
     deal_id: 'LDV-2025-003',
+    share_token: 'c9e1a5d3',
     bride: 'Inês',
     groom: 'Ricardo',
     surname: 'Oliveira',

@@ -14,7 +14,7 @@ function fmtPublishedAt(d) {
   return new Date(d).toLocaleString('pt-PT', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 }
 
-function PublishBar({ state, onPublish, showCopyFromPlanning, onCopyFromPlanning }) {
+function PublishBar({ state, onPublish, showCopyFromPlanning, onCopyFromPlanning, onCopyLink }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
       <span style={{ fontSize: 11, color: state.published ? 'var(--success)' : 'var(--warn)' }}>
@@ -23,6 +23,11 @@ function PublishBar({ state, onPublish, showCopyFromPlanning, onCopyFromPlanning
       {showCopyFromPlanning && (
         <button className="btn btn-outline btn-sm" onClick={onCopyFromPlanning} title="Copiar entradas da timeline Planning">
           ⧉ Copiar de Planning
+        </button>
+      )}
+      {onCopyLink && state.published && (
+        <button className="btn btn-outline btn-sm" onClick={onCopyLink} title="Copiar link público desta timeline">
+          🔗 Copiar Link
         </button>
       )}
       <button className="btn btn-primary btn-sm" onClick={onPublish}>
@@ -272,6 +277,17 @@ export default function WeddingCateringTimeline() {
     toast(`Timeline "${TIMELINE_COLUMNS.find(c => c.id === col)?.label}" publicada`, 'success');
   };
 
+  // Link público de leitura para o casal/fornecedores (só Geral e Catering têm — a
+  // Planning é uso interno da coordenação, tal como no original).
+  const copyPublicTimelineLink = (col) => {
+    if (!wedding.share_token) {
+      toast('Este casamento não tem link de partilha configurado', 'error');
+      return;
+    }
+    const url = `${window.location.origin}/public/timeline/${wedding.id}/${col}#${wedding.share_token}`;
+    navigator.clipboard.writeText(url).then(() => toast('Link copiado!', 'success'));
+  };
+
   const copyFromPlanning = () => {
     if (!window.confirm('Substituir a timeline de Catering pelas entradas da Planning?')) return;
     setTimeline(planningEntries.map(e => ({
@@ -377,7 +393,7 @@ export default function WeddingCateringTimeline() {
                   <h2 style={{ fontSize: 16, fontWeight: 600 }}>Timeline Geral</h2>
                   <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 2 }}>Visão macro do dia, partilhável com o casal.</div>
                 </div>
-                <PublishBar state={publishState.geral} onPublish={() => publishColumn('geral')} />
+                <PublishBar state={publishState.geral} onPublish={() => publishColumn('geral')} onCopyLink={() => copyPublicTimelineLink('geral')} />
               </div>
               <SimpleTimelineColumn entries={geralEntries} onChange={setGeralEntries} />
             </>
@@ -415,6 +431,7 @@ export default function WeddingCateringTimeline() {
               onPublish={() => publishColumn('catering')}
               showCopyFromPlanning
               onCopyFromPlanning={copyFromPlanning}
+              onCopyLink={() => copyPublicTimelineLink('catering')}
             />
           </div>
 

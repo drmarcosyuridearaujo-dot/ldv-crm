@@ -1,3 +1,14 @@
+// Layout inicial de mesas — partilhado entre a planta interna (coordenadora) e a
+// planta pública (self-service do casal), para ambas arrancarem do mesmo estado.
+export function makeInitialTables() {
+  return [
+    { id: 'tb1', label: 'Noivos', preset: 'rect_bride', x: 20, y: 5, rotation: 0, min_seats: 2, max_seats: 2, disabled_seats: [] },
+    { id: 'tb2', label: 'Mesa 1', preset: 'round_medium', x: 8, y: 15, rotation: 0, min_seats: 8, max_seats: 10, disabled_seats: [] },
+    { id: 'tb3', label: 'Mesa 2', preset: 'round_medium', x: 32, y: 15, rotation: 0, min_seats: 8, max_seats: 10, disabled_seats: [] },
+    { id: 'tb4', label: 'Mesa 3', preset: 'round_medium', x: 20, y: 22, rotation: 0, min_seats: 8, max_seats: 10, disabled_seats: [] }
+  ];
+}
+
 export const TABLE_PRESETS = {
   rect_guests: {
     id: 'rect_guests', shape: "rect", width: 2.6, height: 0.8,

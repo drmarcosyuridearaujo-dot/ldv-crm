@@ -5,19 +5,9 @@ import { DraggableTable } from '../../components/seating/DraggableTable';
 import { GuestListEditor } from '../../components/seating/GuestListEditor';
 import { SeatingQuestionnaire } from '../../components/seating/SeatingQuestionnaire';
 import { SeatToggleGrid } from '../../components/seating/SeatToggleGrid';
-import { TABLE_PRESETS, FIXED_SEAT_PRESETS, rotationOptions } from '../../components/seating/tableConfig';
+import { TABLE_PRESETS, FIXED_SEAT_PRESETS, rotationOptions, makeInitialTables } from '../../components/seating/tableConfig';
 import { MOCK_GUESTS } from '../../data/mockData';
 import { useToast } from '../../context/ToastContext';
-
-// ── Estado inicial ──
-function makeInitialTables() {
-  return [
-    { id: 'tb1', label: 'Noivos', preset: 'rect_bride', x: 20, y: 5, rotation: 0, min_seats: 2, max_seats: 2, disabled_seats: [] },
-    { id: 'tb2', label: 'Mesa 1', preset: 'round_medium', x: 8, y: 15, rotation: 0, min_seats: 8, max_seats: 10, disabled_seats: [] },
-    { id: 'tb3', label: 'Mesa 2', preset: 'round_medium', x: 32, y: 15, rotation: 0, min_seats: 8, max_seats: 10, disabled_seats: [] },
-    { id: 'tb4', label: 'Mesa 3', preset: 'round_medium', x: 20, y: 22, rotation: 0, min_seats: 8, max_seats: 10, disabled_seats: [] }
-  ];
-}
 
 export default function WeddingSeating() {
   const { wedding } = useOutletContext();
@@ -182,6 +172,16 @@ export default function WeddingSeating() {
     toast('Planta reiniciada');
   };
 
+  // ── Link público de auto-serviço para o casal ──
+  const copyShareLink = () => {
+    if (!wedding.share_token) {
+      toast('Este casamento não tem link de partilha configurado', 'error');
+      return;
+    }
+    const url = `${window.location.origin}/public/seating/${wedding.id}#${wedding.share_token}`;
+    navigator.clipboard.writeText(url).then(() => toast('Link copiado! Envia ao casal.', 'success'));
+  };
+
   const selectedTable = tables.find(t => t.id === selectedTableId) ?? null;
   const totalSeats    = tables.reduce((s, t) => s + t.max_seats, 0);
   const assignedCount = guests.filter(g => g.assigned_seat).length;
@@ -285,6 +285,9 @@ export default function WeddingSeating() {
                   ↺ Reset
                 </button>
                 <div style={{ width: 1, height: 24, background: 'var(--border)' }} />
+                <button className="btn btn-outline btn-sm" onClick={copyShareLink} title="Copiar link para o casal">
+                  🔗 Copiar Link para o Casal
+                </button>
                 <a href={`/wedding/${wedding.id}/seating/print`} target="_blank" rel="noreferrer" className="btn btn-outline btn-sm">
                   🖨️ Imprimir
                 </a>

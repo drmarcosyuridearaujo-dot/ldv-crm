@@ -18,6 +18,8 @@ import PrintSeating from './pages/print/PrintSeating';
 import PrintDecor from './pages/print/PrintDecor';
 import PrintDecorItems from './pages/print/PrintDecorItems';
 import PrintTimeline from './pages/print/PrintTimeline';
+import PublicSeatingPlan from './pages/public/PublicSeatingPlan';
+import PublicTimeline from './pages/public/PublicTimeline';
 import './App.css';
 
 const ROLE_LABELS = {
@@ -123,6 +125,17 @@ export default function App() {
   };
 
   const loc = useLocation();
+
+  // Rotas públicas — sem login, tal como no original (window.location.pathname.startsWith(...)).
+  // Têm de vir ANTES do gate de autenticação.
+  if (loc.pathname.startsWith('/public/')) {
+    return (
+      <Routes>
+        <Route path="/public/seating/:id" element={<PublicSeatingPlan />} />
+        <Route path="/public/timeline/:id/:column" element={<PublicTimeline />} />
+      </Routes>
+    );
+  }
 
   if (!role) {
     return (
